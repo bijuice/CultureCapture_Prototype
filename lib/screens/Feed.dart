@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
 import '../services/posts.dart';
+import 'Video.dart';
 
-List<Post> posts = [
+//hardcoded posts
+List<Post> _posts = [
   Post(
       name: 'Abdul Rahman Rehmtulla',
       likes: '33k',
       url: 'assets/videos/video1.png',
-      title: "Kite Festival"),
+      title: "Kite Festival",
+      avatar: 'assets/images/me.jpg'),
   Post(
       name: 'Hamisi Rawlins',
       likes: '25k',
       url: 'assets/videos/video2.png',
-      title: "Native Amazon Dance"),
+      title: "Native Amazon Dance",
+      avatar: 'assets/images/rolo.png'),
   Post(
       name: 'Chao Mbogo',
       likes: '44k',
       url: 'assets/videos/video3.png',
-      title: "Zoroastrian Temple Tour")
+      title: "Zoroastrian Temple Tour",
+      avatar: 'assets/images/chao.png'),
+  Post(
+      name: 'For You Chinese Resaturant',
+      likes: '1.2K',
+      url: 'assets/videos/video4.png',
+      title: "Authentic Chinese Food in Nairobi",
+      avatar: 'assets/images/foryou.jpg')
 ];
 
+//Entire homepage feed
 class Feed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -45,57 +57,145 @@ class Feed extends StatelessWidget {
   }
 }
 
+//Feed tab
 class Main extends StatelessWidget {
+  //function for selecting videos
+  void goToVideo(context, index) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Video(
+                  name: _posts[index].name,
+                  likes: _posts[index].likes,
+                  url: _posts[index].url,
+                  title: _posts[index].title,
+                  avatar: _posts[index].avatar,
+                )));
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: posts.length,
+      itemCount: _posts.length,
       itemBuilder: (context, index) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              posts[index].title,
-              style: TextStyle(
-                fontSize: 20,
-                letterSpacing: 2,
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      _posts[index].title,
+                      style: TextStyle(
+                          fontSize: 18,
+                          letterSpacing: 2,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Image(image: AssetImage(posts[index].url)),
-            Text(
-              posts[index].likes,
-              style: TextStyle(
-                fontSize: 16,
-                letterSpacing: 2,
+              SizedBox(
+                height: 10,
               ),
-              textAlign: TextAlign.left,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(posts[index].name),
-            Divider(
-              height: 20,
-            )
-          ],
+              GestureDetector(
+                  onTap: () {
+                    goToVideo(context, index);
+                  },
+                  child: Image(image: AssetImage(_posts[index].url))),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    _posts[index].likes,
+                    style: TextStyle(
+                        fontSize: 16,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.left,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Align(
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 10,
+                    ),
+                    CircleAvatar(
+                      backgroundImage: AssetImage(_posts[index].avatar),
+                      radius: 15,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      _posts[index].name,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                alignment: Alignment.centerLeft,
+              ),
+              Divider(
+                height: 20,
+                thickness: 1,
+                color: Colors.grey[300],
+              )
+            ],
+          ),
         );
       },
     );
   }
 }
 
+//featured tab
 class Featured extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      children: [
+        Image(image: AssetImage('assets/images/ghana.png')),
+        Text('What You Ghana Do When They Come For You?',
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+            )),
+        SizedBox(
+          height: 10,
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
+          child: Text(
+            'This week we travel to Ghana and take a look at the various tribes and cultures from this African country. We’ll put on our “Kente” and head to a “Mole-Dagbani” wedding, have a taste of “Fufu”, and dance dance to the beat of the “Akan” drum',
+            style: TextStyle(
+              fontSize: 15,
+            ),
+            textAlign: TextAlign.justify,
+          ),
+        )
+      ],
+    );
   }
 }

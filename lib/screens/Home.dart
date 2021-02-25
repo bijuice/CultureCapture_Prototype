@@ -10,7 +10,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String title = 'Culture Capture';
+  String title = 'Home';
   int _selectedIndex = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
@@ -23,6 +23,30 @@ class _HomeState extends State<Home> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+
+      switch (index) {
+        case 0:
+          {
+            title = 'Home';
+          }
+          break;
+
+        case 1:
+          {
+            title = 'Add';
+          }
+          break;
+        case 2:
+          {
+            title = 'Leaderboard';
+          }
+          break;
+        case 3:
+          {
+            title = 'Profile';
+          }
+          break;
+      }
     });
   }
 
@@ -31,6 +55,9 @@ class _HomeState extends State<Home> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.grey[300],
+          leading: Image(
+            image: AssetImage('assets/images/logo.png'),
+          ),
           title: Text(
             title,
             style: TextStyle(
@@ -41,45 +68,28 @@ class _HomeState extends State<Home> {
           ),
           centerTitle: true,
         ),
-        bottomNavigationBar: Theme(
-          data: Theme.of(context).copyWith(
-              // sets the background color of the `BottomNavigationBar`
-              canvasColor: Colors.grey[300],
-              // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-              primaryColor: Colors.red,
-              textTheme: Theme.of(context).textTheme.copyWith(
-                  caption: new TextStyle(
-                      color: Colors
-                          .white))), // sets the inactive color of the `BottomNavigationBar`,
-          child: BottomNavigationBar(
-            iconSize: 30,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home,
-                    color: Colors.black,
-                  ),
-                  label: ''),
-              BottomNavigationBarItem(
-                  icon:
-                      Icon(Icons.add_circle_outline_sharp, color: Colors.black),
-                  label: ''),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.leaderboard, color: Colors.black),
-                  label: ''),
-              BottomNavigationBarItem(
-                  icon: CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/me.jpg'),
-                    radius: 18,
-                  ),
-                  label: '')
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Colors.amber[800],
-            onTap: _onItemTapped,
-          ),
+        bottomNavigationBar: BottomNavigationBar(
+          iconSize: 30,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined), label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.add_circle_outline_sharp), label: 'Add'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.leaderboard_outlined), label: 'Leaderboard'),
+            BottomNavigationBarItem(
+                icon: CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/me.jpg'),
+                  radius: 17,
+                ),
+                label: 'User')
+          ],
+          currentIndex: _selectedIndex,
+          unselectedItemColor: Colors.black,
+          selectedItemColor: Colors.amber[800],
+          onTap: _onItemTapped,
         ),
         body: _widgetOptions.elementAt(_selectedIndex));
   }
