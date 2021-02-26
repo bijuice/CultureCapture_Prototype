@@ -8,24 +8,28 @@ List<Post> _posts = [
       name: 'Abdul Rahman Rehmtulla',
       likes: '33k',
       url: 'assets/videos/video1.png',
+      vidUrl: 'assets/videos/video1.mp4',
       title: "Kite Festival",
       avatar: 'assets/images/me.jpg'),
   Post(
       name: 'Hamisi Rawlins',
       likes: '25k',
       url: 'assets/videos/video2.png',
+      vidUrl: 'assets/videos/video2.mp4',
       title: "Native Amazon Dance",
       avatar: 'assets/images/rolo.png'),
   Post(
       name: 'Chao Mbogo',
       likes: '44k',
       url: 'assets/videos/video3.png',
+      vidUrl: 'assets/videos/video3.mp4',
       title: "Zoroastrian Temple Tour",
       avatar: 'assets/images/chao.png'),
   Post(
       name: 'For You Chinese Resaturant',
       likes: '1.2K',
       url: 'assets/videos/video4.png',
+      vidUrl: 'assets/videos/video4.mp4',
       title: "Authentic Chinese Food in Nairobi",
       avatar: 'assets/images/foryou.jpg')
 ];
@@ -70,6 +74,7 @@ class Main extends StatelessWidget {
                   url: _posts[index].url,
                   title: _posts[index].title,
                   avatar: _posts[index].avatar,
+                  vidUrl: _posts[index].vidUrl,
                 )));
   }
 
