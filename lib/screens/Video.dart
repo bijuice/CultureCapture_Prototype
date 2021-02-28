@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:video_player/video_player.dart';
+import 'package:expandable/expandable.dart';
 
 class Video extends StatefulWidget {
   final String name, avatar, likes, url, title, vidUrl;
+
+  List<String> comments = ['Really cool!', ''];
 
   Video(
       {this.name, this.likes, this.url, this.title, this.avatar, this.vidUrl});
@@ -58,80 +61,108 @@ class _VideoState extends State<Video> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.grey[300],
-        title: Center(child: Text(widget.title)),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Expanded(
-              child: Center(
-            //implement checking wether video has loaded in final version
-            child: Chewie(
-              controller: _chewieController,
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Center(
+              //implement checking wether video has loaded in final version
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Chewie(
+                  controller: _chewieController,
+                ),
+              ),
             ),
-          )),
-          SizedBox(
-            height: 30,
-          ),
-          Column(
-            children: [
-              Row(
+            ExpandableNotifier(
+                child: Card(
+              clipBehavior: Clip.none,
+              child: Column(
                 children: [
-                  SizedBox(
-                    width: 10,
+                  ScrollOnExpand(
+                    scrollOnExpand: true,
+                    scrollOnCollapse: false,
+                    child: ExpandablePanel(
+                      header: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  widget.title,
+                                  style: TextStyle(fontSize: 16),
+                                )),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  widget.likes,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      letterSpacing: 2,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Expanded(child: Container()),
+                                CircleAvatar(
+                                  backgroundImage: AssetImage(widget.avatar),
+                                  radius: 15,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  widget.name,
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      expanded: SizedBox(
+                        height: 150,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.amber, shape: BoxShape.rectangle),
+                        ),
+                      ),
+                      builder: (_, collapsed, expanded) {
+                        return Padding(
+                          padding:
+                              EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                          child: Expandable(
+                            collapsed: collapsed,
+                            expanded: expanded,
+                            theme: const ExpandableThemeData(crossFadePoint: 0),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                  Icon(
-                    Icons.favorite,
-                    color: Colors.red,
+                  Divider(
+                    height: 15,
+                    thickness: 2,
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    widget.likes,
-                    style: TextStyle(
-                        fontSize: 16,
-                        letterSpacing: 2,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.left,
-                  ),
+                  Container(
+                    child: Text('Comments'),
+                  )
                 ],
               ),
-              SizedBox(
-                height: 15,
-              ),
-              Align(
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 10,
-                    ),
-                    CircleAvatar(
-                      backgroundImage: AssetImage(widget.avatar),
-                      radius: 15,
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      widget.name,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                alignment: Alignment.centerLeft,
-              ),
-              SizedBox(
-            height: 30,
-            Container()
-          )
-            ],
-          ),
-          
-        ],
+            ))
+          ],
+        ),
       ),
     );
   }
