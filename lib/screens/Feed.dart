@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import '../services/posts.dart';
 import 'Video.dart';
 
@@ -34,8 +35,18 @@ List<Post> _posts = [
       avatar: 'assets/images/foryou.jpg')
 ];
 
+List<String> tags = [
+  'Africa',
+  'Wedding',
+  'Dance',
+  'Music',
+  'Food',
+  'Festival',
+];
+
 //Entire homepage feed
 class Feed extends StatelessWidget {
+  //TODO: add tags
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -80,97 +91,134 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: _posts.length,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Row(
+    return Column(
+      children: [
+        SizedBox(
+          height: 10,
+        ),
+        Container(
+          height: 30,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: tags.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black, width: 2),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                      child: Text(
+                        tags[index],
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    )),
+                  ),
+                );
+              }),
+        ),
+        Divider(
+          height: 20,
+          thickness: 2,
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: _posts.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            _posts[index].title,
+                            style: TextStyle(
+                                fontSize: 18,
+                                letterSpacing: 2,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
                     SizedBox(
-                      width: 10,
+                      height: 10,
                     ),
-                    Text(
-                      _posts[index].title,
-                      style: TextStyle(
-                          fontSize: 18,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold),
+                    GestureDetector(
+                        onTap: () {
+                          goToVideo(context, index);
+                        },
+                        child: Image(image: AssetImage(_posts[index].url))),
+                    SizedBox(
+                      height: 20,
                     ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          Icons.favorite,
+                          color: Colors.red,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          _posts[index].likes,
+                          style: TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 2,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Align(
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
+                          ),
+                          CircleAvatar(
+                            backgroundImage: AssetImage(_posts[index].avatar),
+                            radius: 15,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            _posts[index].name,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      alignment: Alignment.centerLeft,
+                    ),
+                    Divider(
+                      height: 20,
+                      thickness: 1,
+                      color: Colors.grey[300],
+                    )
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              GestureDetector(
-                  onTap: () {
-                    goToVideo(context, index);
-                  },
-                  child: Image(image: AssetImage(_posts[index].url))),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    Icons.favorite,
-                    color: Colors.red,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    _posts[index].likes,
-                    style: TextStyle(
-                        fontSize: 16,
-                        letterSpacing: 2,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.left,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Align(
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 10,
-                    ),
-                    CircleAvatar(
-                      backgroundImage: AssetImage(_posts[index].avatar),
-                      radius: 15,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      _posts[index].name,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                alignment: Alignment.centerLeft,
-              ),
-              Divider(
-                height: 20,
-                thickness: 1,
-                color: Colors.grey[300],
-              )
-            ],
+              );
+            },
           ),
-        );
-      },
+        ),
+      ],
     );
   }
 }
