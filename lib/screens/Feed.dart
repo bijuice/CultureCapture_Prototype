@@ -55,11 +55,17 @@ class Feed extends StatelessWidget {
           tabs: [
             Tab(
               child: Text('Feed',
-                  style: TextStyle(color: Colors.black, letterSpacing: 2)),
+                  style: TextStyle(
+                      color: Colors.black,
+                      letterSpacing: 2,
+                      fontWeight: FontWeight.bold)),
             ),
             Tab(
               child: Text('Featured',
-                  style: TextStyle(color: Colors.black, letterSpacing: 2)),
+                  style: TextStyle(
+                      color: Colors.black,
+                      letterSpacing: 2,
+                      fontWeight: FontWeight.bold)),
             )
           ],
         ),

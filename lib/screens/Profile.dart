@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+class Constants {
+  Constants._();
+  static const double padding = 20;
+  static const double avatarRadius = 45;
+}
+
 class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -23,6 +29,64 @@ class Profile extends StatelessWidget {
       'assets/images/8.png',
       'assets/images/9.png',
     ];
+
+    Future<void> _showMyDialog(index) async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: AspectRatio(
+              aspectRatio: 1,
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                        icon: Icon(
+                          Icons.close,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        }),
+                  ),
+                  Image(image: AssetImage(badges[index])),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    'Kenyan and Proud',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    'This badge is earned by creating a post about a Kenyan culture',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    'Earned on: 18/03/2021',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    }
+
     return ListView(
       children: [
         Padding(
@@ -168,18 +232,28 @@ class Profile extends StatelessWidget {
           height: 70,
           child: Center(
             child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: 4,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: Image(
-                    image: AssetImage(badges[index]),
+                  padding: const EdgeInsets.only(
+                    left: 15,
+                    right: 15,
+                  ),
+                  child: GestureDetector(
+                    onTap: () => _showMyDialog(index),
+                    child: Image(
+                      image: AssetImage(badges[index]),
+                    ),
                   ),
                 );
               },
             ),
           ),
+        ),
+        SizedBox(
+          height: 5,
         ),
         Divider(
           height: 5,
@@ -189,7 +263,7 @@ class Profile extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15),
             child: Text(
-              'Featured Badges',
+              'All Badges',
               style: TextStyle(
                   fontWeight: FontWeight.bold, fontSize: 18, letterSpacing: 2),
             ),
@@ -197,6 +271,7 @@ class Profile extends StatelessWidget {
           alignment: Alignment.topLeft,
         ),
         GridView.builder(
+            physics: NeverScrollableScrollPhysics(),
             primary: true,
             shrinkWrap: true,
             itemCount: badges.length,
@@ -206,7 +281,7 @@ class Profile extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: GestureDetector(
-                  onTap: () => BadgePopup(),
+                  onTap: () => _showMyDialog(index),
                   child: Image(
                     image: AssetImage(badges[index]),
                     height: 64,
@@ -215,33 +290,6 @@ class Profile extends StatelessWidget {
               );
             }),
       ],
-    );
-  }
-}
-
-class BadgePopup extends StatelessWidget {
-  //TODO: implement on tap popup
-  contentBox(context) {
-    return Stack(
-      children: [
-        Container(
-          child: Column(
-            children: [Text('placeholder')],
-          ),
-        )
-      ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(2),
-      ),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      child: contentBox(context),
     );
   }
 }
