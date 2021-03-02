@@ -203,10 +203,10 @@ class Profile extends StatelessWidget {
             gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
             itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () => BadgePopup(),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+              return Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: GestureDetector(
+                  onTap: () => BadgePopup(),
                   child: Image(
                     image: AssetImage(badges[index]),
                     height: 64,
@@ -221,7 +221,18 @@ class Profile extends StatelessWidget {
 
 class BadgePopup extends StatelessWidget {
   //TODO: implement on tap popup
-  contentBox(context) {}
+  contentBox(context) {
+    return Stack(
+      children: [
+        Container(
+          child: Column(
+            children: [Text('placeholder')],
+          ),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(

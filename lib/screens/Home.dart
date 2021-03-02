@@ -85,7 +85,7 @@ class _HomeState extends State<Home> {
           ],
           currentIndex: _selectedIndex,
           unselectedItemColor: Colors.black,
-          selectedItemColor: Colors.amber[800],
+          selectedItemColor: Colors.amber[200],
           onTap: _onItemTapped,
         ),
         body: _widgetOptions.elementAt(_selectedIndex));
