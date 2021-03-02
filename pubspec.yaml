@@ -26,6 +26,7 @@ dependencies:
   chewie: ^0.12.2
   video_player: ^1.0.1
   expandable: ^4.1.4
+  flutter_search_bar: ^2.1.0
 
 
   # The following adds the Cupertino Icons font to your application.

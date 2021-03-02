@@ -30,6 +30,12 @@ class _VideoState extends State<Video> {
     Comments(user: lorem, comment: ipsum),
   ];
 
+  List<String> tags = [
+    'Africa',
+    'Wedding',
+    'Dance',
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -68,7 +74,7 @@ class _VideoState extends State<Video> {
           elevation: 0,
           backgroundColor: Colors.white,
         ),
-        body: ListView(
+        body: Column(
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -91,21 +97,11 @@ class _VideoState extends State<Video> {
                         scrollOnExpand: true,
                         scrollOnCollapse: false,
                         child: ExpandablePanel(
+                          tapHeaderToExpand: false,
                           header: Padding(
                             padding: EdgeInsets.all(10),
                             child: Column(
                               children: [
-                                Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      widget.title,
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                                SizedBox(
-                                  height: 15,
-                                ),
                                 Row(
                                   children: [
                                     Icon(
@@ -124,35 +120,78 @@ class _VideoState extends State<Video> {
                                           fontWeight: FontWeight.bold),
                                       textAlign: TextAlign.left,
                                     ),
-                                    Expanded(child: Container()),
-                                    CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage(widget.avatar),
-                                      radius: 15,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      widget.name,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
                                   ],
                                 ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(3, 15, 8, 10),
+                                  child: Row(
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundImage:
+                                            AssetImage(widget.avatar),
+                                        radius: 15,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        widget.name,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
                           ),
                           expanded: SizedBox(
-                            height: 300,
+                            height: 200,
                             child: Container(
-                              child: Text(
-                                'Accessibility Features Placeholder',
-                                style: TextStyle(fontSize: 30),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(3, 8, 3, 8),
+                                    child: Container(
+                                      height: 30,
+                                      child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: tags.length,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      8, 0, 8, 0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: Colors.black,
+                                                        width: 2),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                20))),
+                                                child: Center(
+                                                    child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          8, 0, 8, 0),
+                                                  child: Text(
+                                                    tags[index],
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                )),
+                                              ),
+                                            );
+                                          }),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              decoration: BoxDecoration(
-                                  color: Colors.amber,
-                                  shape: BoxShape.rectangle),
                             ),
                           ),
                           builder: (_, collapsed, expanded) {
@@ -190,29 +229,27 @@ class _VideoState extends State<Video> {
               ],
             ),
             Expanded(
-              child: Container(
-                height: 400,
-                child: ListView.builder(
-                    itemCount: comments.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          title: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text(
-                              comments[index].user,
-                              style: TextStyle(
-                                  fontSize: 13, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          subtitle: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text(comments[index].comment),
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: comments.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: ListTile(
+                        title: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text(
+                            comments[index].user,
+                            style: TextStyle(
+                                fontSize: 13, fontWeight: FontWeight.bold),
                           ),
                         ),
-                      );
-                    }),
-              ),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text(comments[index].comment),
+                        ),
+                      ),
+                    );
+                  }),
             )
           ],
         ),

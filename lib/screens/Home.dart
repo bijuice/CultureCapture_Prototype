@@ -4,6 +4,9 @@ import 'Profile.dart';
 import 'Add.dart';
 import 'Feed.dart';
 
+//TODO: implement search bar
+//TODO: remove add page from bottom bar
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -15,7 +18,6 @@ class _HomeState extends State<Home> {
 
   static List<Widget> _widgetOptions = <Widget>[
     Feed(),
-    Add(),
     Leaderboard(),
     Profile(),
   ];
@@ -33,15 +35,10 @@ class _HomeState extends State<Home> {
 
         case 1:
           {
-            title = 'Add';
-          }
-          break;
-        case 2:
-          {
             title = 'Leaderboard';
           }
           break;
-        case 3:
+        case 2:
           {
             title = 'Profile';
           }
@@ -54,19 +51,21 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.grey[300],
-          leading: Image(
-            image: AssetImage('assets/images/logo.png'),
+          backgroundColor: Colors.grey[100],
+          elevation: 0,
+          title: Image(
+            height: 30,
+            image: AssetImage(
+              'assets/images/logo.png',
+            ),
           ),
-          title: Text(
-            title,
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 3),
-          ),
-          centerTitle: true,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.add_circle_outline_rounded),
+              onPressed: () {},
+              color: Colors.black,
+            )
+          ],
         ),
         bottomNavigationBar: BottomNavigationBar(
           iconSize: 30,
@@ -75,8 +74,6 @@ class _HomeState extends State<Home> {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined), label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle_outline_sharp), label: 'Add'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.leaderboard_outlined), label: 'Leaderboard'),
             BottomNavigationBarItem(

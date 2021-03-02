@@ -46,7 +46,6 @@ List<String> tags = [
 
 //Entire homepage feed
 class Feed extends StatelessWidget {
-  //TODO: add tags
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -120,8 +119,11 @@ class Main extends StatelessWidget {
                 );
               }),
         ),
+        SizedBox(
+          height: 8,
+        ),
         Divider(
-          height: 20,
+          height: 2,
           thickness: 2,
         ),
         Expanded(
@@ -144,7 +146,7 @@ class Main extends StatelessWidget {
                             _posts[index].title,
                             style: TextStyle(
                                 fontSize: 18,
-                                letterSpacing: 2,
+                                letterSpacing: 1,
                                 fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -241,7 +243,7 @@ class Featured extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
           child: Text(
-            'This week we travel to Ghana and take a look at the various tribes and cultures from this African country. We’ll put on our “Kente” and head to a “Mole-Dagbani” wedding, have a taste of “Fufu”, and dance dance to the beat of the “Akan” drum',
+            'This week we travel to Ghana and take a look at the various tribes and cultures from this African country. We’ll put on our “Kente” and head to a “Mole-Dagbani” wedding, have a taste of “Fufu”, and dance to the beat of the “Akan” drum',
             style: TextStyle(
               fontSize: 15,
             ),
